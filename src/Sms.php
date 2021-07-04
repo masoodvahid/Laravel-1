@@ -46,6 +46,7 @@ class Sms
         $this->url_send_auto_auth_code = 'https://smspanel.Trez.ir/AutoSendCode.ashx';
         $this->url_check_auth_code = 'https://smspanel.Trez.ir/CheckSendCode.ashx';
         $this->url_send_auth_code = 'https://smspanel.Trez.ir/SendMessageWithCode.ashx';
+        $this->url_check_credit = 'http://smspanel.trez.ir/api/smsAPI/GetCredit.ashx';
 
         $this->client = new HttpClient([
             'timeout'         => 10,
@@ -127,6 +128,20 @@ class Sms
         $response = $this->client->request('POST', $this->url_check_auth_code, ['form_params' => $params]);
         $response = \json_decode((string) $response->getBody(), true);
 
+        return $response;
+    }
+    
+    public function getCredit()
+    {
+        $params = [
+            'Username' => $this->username,
+            'Password' => $this->password,            
+            'Action' => 'credit',
+        ];
+        
+        $response = $this->client->request('POST', $this->url_check_auth_code, ['form_params' => $params]);
+        $response = \json_decode((string) $response->getBody(), true);
+        
         return $response;
     }
 }
